@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Commande de produit</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; }
+    input, select, button { width: 100%; padding: 10px; margin: 5px 0; }
+    button { background-color: #007BFF; color: white; border: none; cursor: pointer; }
+    button:hover { background-color: #0056b3; }
+    #message { margin-top: 20px; font-weight: bold; color: green; }
+  </style>
+</head>
+<body>
+  <h2>Commande de produit</h2>
+  <form id="commandeForm">
+    <label>Nom :</label>
+    <input type="text" id="nom_client" required>
+
+    <label>Email :</label>
+    <input type="email" id="email_client" required>
+
+    <label>Téléphone :</label>
+    <input type="text" id="telephone_client">
+
+    <label>Produit choisi :</label>
+    <select id="produit" required>
+      <option value="">--Choisissez un produit--</option>
+      <option value="Produit A">Produit A</option>
+      <option value="Produit B">Produit B</option>
+      <option value="Produit C">Produit C</option>
+    </select>
+
+    <label>Mode de réception :</label>
+    <select id="mode_reception">
+      <option value="Déplacement du client">Déplacement du client</option>
+      <option value="Livraison">Livraison</option>
+    </select>
+
+    <label>Type de ticket :</label>
+    <input type="text" id="type_ticket" required>
+
+    <label>Localisation :</label>
+    <input type="text" id="localisation" required>
+
+    <label>Date souhaitée :</label>
+    <input type="date" id="date_souhaitee">
+
+    <button type="submit">Envoyer</button>
+  </form>
+
+  <p id="message"></p>
+
+  <script>
+    const form = document.getElementById('commandeForm');
+    const url = "https://script.google.com/macros/s/AKfycbxlPTTuixTqOAYoBRSBnuC0JHq6TkajDaUIy0Zk24l_odvXh8ciZe2AvpxOElNxjk0R/exec";
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const data = {
+        nom_client: document.getElementById('nom_client').value,
+        email_client: document.getElementById('email_client').value,
+        telephone_client: document.getElementById('telephone_client').value,
+        produit: document.getElementById('produit').value,
+        mode_reception: document.getElementById('mode_reception').value,
+        type_ticket: document.getElementById('type_ticket').value,
+        localisation: document.getElementById('localisation').value,
+        date_souhaitee: document.getElementById('date_souhaitee').value,
+        prestataire_email: "kevinesambieni@gmail.com"
+      };
+
+      fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data)
+      })
+      .then(response => response.text())
+      .then(result => {
+        // Rediriger vers la page Merci
+        window.location.href = "merci.html";
+      })
+      .catch(error => {
+        document.getElementById('message').innerText = "Erreur lors de l'envoi. Veuillez réessayer.";
+      });
+    });
+  </script>
+</body>
+</html>
